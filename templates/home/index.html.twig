@@ -4,8 +4,49 @@
 
 {% block body %}
 
+<style>
+.element {
+    width: 33%;
+    min-width: 200px;
+}
+.conteneur {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+</style>
+
 <div class="container">
-    <h1 class="text-center my-5">Accueil</h1>
+    <div class="head text-center my-5">
+        <h1>Acceuil</h1>
+        <h3>Site de monitoring en ligne</h3>
+    </div>
+    <div class="conteneur">
+        {% for website in websites %}
+            <div class="element px-3">
+                <div class="card bg-success text-white mb-3 website-card">
+                    <div class="card-header website-card-title">
+                        <h4>
+                            {{ website.name }}
+                        </h4>
+                        <small>
+                            {{ website.url }}
+                        </small>
+                    </div>
+                    <div class="card-body">
+                        <div class="website-card-code">
+                            HTTP: 200
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a class="btn btn-lg btn-white" href="#">
+                            Voir la fiche
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 </div>
 
 {% endblock %}
