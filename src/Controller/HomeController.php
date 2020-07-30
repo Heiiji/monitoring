@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Status;
 use App\Entity\Website;
 use App\Repository\WebsiteRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -20,6 +22,42 @@ class HomeController extends AbstractController
             'websites' => $websites
         ]);
     }
+
+    
+    /**
+     * @Route("/websites/analyze", name="analyze")
+     */
+
+    public function analyze(WebsiteRepository $repository, EntityManagerInterface $manager) {
+        // recup les sites
+
+        $websites = $repository->findAll();
+
+        // recup leurs status
+
+        foreach($websites as $key => $site) {
+            $url = $site->getUrl();
+            $handle = curl_init($url);
+            curl_setopt($handle, CURLOPT_RETURNTRANSFER, TRUE);
+            $response = curl_exec($handle);
+            $code = curl_getinfo($handle, CURLINFO_HTTP_CODE);
+            curl_close($handle);
+
+            // creer une nouvelle entités status -> save
+
+            $status = new Status();
+            $status->setCode($code)
+                ->setReportedAt(new \DateTime())
+                ->setWebsite($site);
+            $manager->persist($status);
+        }
+        $manager->flush();
+
+        // Se rediriger vers "home"
+
+        return $this->redirectToRoute('home');
+    }
+
     
     /**
      * @Route("/websites/{id}", name="website_show")
