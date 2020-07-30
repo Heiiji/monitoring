@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Status;
 use App\Entity\Website;
+use App\Repository\StatusRepository;
 use App\Repository\WebsiteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,12 +15,14 @@ class HomeController extends AbstractController
     /**
      * @Route("/", name="home")
      */
-    public function index(WebsiteRepository $repository)
+    public function index(WebsiteRepository $repository, StatusRepository $statusRepo)
     {
         $websites = $repository->findAll();
-
+        $count = count($websites);
+        $status = $statusRepo->getLastStatus($count);
         return $this->render('home/index.html.twig', [
-            'websites' => $websites
+            'websites' => $websites,
+            'status' => $status
         ]);
     }
 

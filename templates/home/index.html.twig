@@ -29,24 +29,31 @@
     </div>
 
     <div class="conteneur">
-        {% for website in websites %}
+        {% for currentStatus in status %}
             <div class="element px-3">
                 <div class="card bg-success text-white mb-3 website-card">
                     <div class="card-header website-card-title">
                         <h4>
-                            {{ website.name }}
+                            {{ currentStatus.website.name }}
                         </h4>
                         <small>
-                            {{ website.url }}
+                            {{ currentStatus.website.url }}
                         </small>
                     </div>
                     <div class="card-body">
                         <div class="website-card-code">
-                            HTTP: 200
+                            HTTP: {{ currentStatus.code }}
+                            {% if currentStatus.code == 200 or currentStatus.code == 301 or currentStatus.code == 302 %}
+                                <i class="fas fa-check-circle"></i>
+                            {% elseif currentStatus.code == 404 %}
+                                <i class="fas fa-exclamation-triangle"></i>
+                            {% else %}
+                                <i class="fas fa-exclamation-circle"></i>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="card-footer">
-                        <a class="btn btn-lg btn-white" href="{{ path('website_show', {'id': website.id}) }}">
+                        <a class="btn btn-lg btn-white" href="{{ path('website_show', {'id': currentStatus.website.id}) }}">
                             <i class="fas fa-tools"></i>
                             Voir la fiche
                         </a>
