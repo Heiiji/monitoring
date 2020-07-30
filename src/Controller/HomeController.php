@@ -53,6 +53,11 @@ class HomeController extends AbstractController
         }
         $manager->flush();
 
+        $this->addFlash(
+            'success',
+            'Le diagnostic à bien été effectué.'
+        );
+
         // Se rediriger vers "home"
 
         return $this->redirectToRoute('home');
