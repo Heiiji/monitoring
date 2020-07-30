@@ -28,6 +28,21 @@ class HomeController extends AbstractController
 
     
     /**
+     * @Route("/websites/clean", name="clean")
+     */
+
+    public function clean(StatusRepository $repository) {
+        $repository->cleanStatusHistory();
+
+        $this->addFlash(
+            'warning',
+            'L\'historique a bien été éffacé.'
+        );
+
+        return $this->redirectToRoute('home');
+    }
+    
+    /**
      * @Route("/websites/analyze", name="analyze")
      */
 
