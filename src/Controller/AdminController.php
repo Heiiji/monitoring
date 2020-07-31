@@ -45,4 +45,38 @@ class AdminController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+    
+    /**
+     * @Route("/admin/{id}/remove", name="admin_remove")
+     */
+    
+    public function remove(EntityManagerInterface $manager, Website $website)
+    {
+        $manager->remove($website);
+        $manager->flush();
+        $this->addFlash('warning', 'Site supprimé avec succès.');
+        return $this->redirectToRoute('admin_dashboard');
+    }
+    
+    /**
+     * @Route("/admin/{id}/edit", name="admin_edit")
+     */
+    
+    public function edit(Website $website, Request $request, EntityManagerInterface $manager)
+    {
+        $form = $this->createForm(WebsiteType::class, $website);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $manager->persist($website);
+            $manager->flush();
+            $this->addFlash('success', 'Site edité avec succès.');
+            return $this->redirectToRoute('admin_dashboard');
+        }
+
+
+        return $this->render('admin/edit.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
 }
