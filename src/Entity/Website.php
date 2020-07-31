@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\WebsiteRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -21,11 +22,20 @@ class Website
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Url(
+     *    message = "The url '{{ value }}' is not a valid url",
+     *  )
      */
     private $url;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(
+     *  min = 2,
+     *  max = 50,
+     *  minMessage = "Your website name must be at least {{ limit }} characters long",
+     *  maxMessage = "Your website name cannot be longer than {{ limit }} characters"
+     * )
      */
     private $name;
 
