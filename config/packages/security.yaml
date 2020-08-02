@@ -2,26 +2,39 @@ security:
     encoders:
         App\Entity\Admin:
             algorithm: bcrypt
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         users_in_memory: { memory: null }
+        auth:
+            entity:
+                class: App\Entity\Admin
+                property: email
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        admin:
+            pattern: ^/admin
+            anonymous: true
+
+            provider: auth
+
+            form_login:
+                # route ver le form de connexion
+                login_path: login
+                # ou vont les donnée a la validation
+                check_path: login
+                # ou on met la redirection
+                default_target_path: admin_dashboard
+            logout:
+                # La route pour logout
+                path: logout
+                # La redirection
+                target: home
+
         main:
             anonymous: true
             lazy: true
             provider: users_in_memory
-
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#firewalls-authentication
-
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
-
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
