@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block body %}
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-4" style="margin-left: 25%">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Connexion
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <form action="">
+                        <fieldset>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Email" name="_usename" type="text" />
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Mot de passe" name="_password" type="password" />
+                            </div>
+                            <button class="btn btn-lg btn-success btn-lock">
+                                <i class="fas fa-unlock-alt mx-1"></i>
+                                Se connecter
+                            </button>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

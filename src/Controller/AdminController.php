@@ -13,6 +13,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AdminController extends AbstractController
 {
     /**
+     * @Route("/admin/login", name="login")
+     */
+
+    public function login()
+    {
+        return $this->render('admin/login.html.twig');
+    }
+
+    /**
      * @Route("/admin", name="admin_dashboard")
      */
 
